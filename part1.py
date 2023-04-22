@@ -10,7 +10,7 @@ import random
 conf = SparkConf().setAppName("PART1")
 sc = SparkContext(conf=conf)
 
-textFile = sc.textFile(shot_logs.csv) # data
+textFile = sc.textFile(sys.argv[1]) # data
 
 for i in range(10):
   print("THE TEXTFILE")
