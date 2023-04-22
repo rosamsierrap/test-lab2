@@ -96,8 +96,9 @@ for player, data in p.items():
 output = sc.parallelize([shooter + '\t' + str(centroid_pos) for shooter, centroid_pos in cntds.items()])
 for i in range(10):
   print("THE OUTPUT")
-  
+for line in output:
+  print(line)
 print(output)
-output.saveAsTextFile("hdfs://10.128.0.2:9000/part1/output")
+#output.saveAsTextFile("hdfs://10.128.0.2:9000/part1/output")
 
 sc.stop()
