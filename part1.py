@@ -26,15 +26,23 @@ info = filtered_data.rdd #info_rdd
 
 # Map to (shooter, (dist, def_dist, time))
 
-ShotDistDefdistTime= info.map(lambda line: (line[15]+line[16].strip('"'),  #shooter
-                                            ((float(line[12])),  #dist
+ShotDistDefdistTime= info.map(lambda line: (line[-2].strip('"'),  #shooter,15,16
+                                            ((float(line[12])),  #dist,12
                                              (float(line[18])), #def_dist
-                                             (float(line[9]))))) #time//float
-
-made = ShotDistDefdistTime.filter(lambda pair: pair[1][0] == 'made') #hit==made
-
+                                             (float(line[9]))), #time//float
+                                             (line[15))) #made
+                                                  
+#new data frame without made                                                   
+ShotDistDefdistTime2= info.map(lambda line: (line[-2].strip('"'),  #shooter,15,16
+                                            ((float(line[12])),  #dist,12
+                                             (float(line[18])), #def_dist
+                                             (float(line[9]))))) #time  
+                                                   
+made_0 = ShotDistDefdistTime.filter(lambda pair: pair[1][3] == 'made') #hit==made  filter made shots     
+made = ShotDistDefdistTime2.filter(lambda pair: pair[0][0] == made_0[0][0]) #without made column
+                   
 made_byshooter = made.groupByKey()
-
+                                                
 p = made_byshooter.map(lambda pair: (pair[0], list(pair[1]))).collectAsMap()
 
 cntd = 4
