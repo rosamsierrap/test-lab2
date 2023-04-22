@@ -5,6 +5,7 @@ from pyspark import SparkContext, SparkConf
 
 from operator import add
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
 import random
 
 conf = SparkConf().setAppName("PART1")
@@ -17,12 +18,20 @@ if len(sys.argv) != 2:
 
 textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) # data
 
+header = textFile.first()
+filtered_data = textFile.filter(lambda line: line != header and line != "").map(lambda line: line.split(","))
+# Filter out rows with empty values
+filtered_data = filtered_data.filter(lambda row: all(col != "" for col in row))
+
 for i in range(10):
   print("THE TEXTFILE")
   
 print(textFile)
+print("FILTERED")
+print(filtered_data)
 
-info = textFile.rdd.filter(lambda line: all(x.strip() for x in line)).flatMap(lambda line: line.split(","))
+info = filtered_data
+#textFile.rdd.filter(lambda line: all(x.strip() for x in line)).flatMap(lambda line: line.split(","))
 
 # Map to (shooter, (dist, def_dist, time))
 ShotDistDefdistTime= info.map(lambda line: (line[15]+line[16].strip('"'),  #shooter
