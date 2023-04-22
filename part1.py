@@ -12,6 +12,11 @@ sc = SparkContext(conf=conf)
 
 textFile = sc.textFile(shot_logs.csv) # data
 
+for i in range(10):
+  print("THE TEXTFILE")
+  
+print(textFile)
+
 info = textFile.flatMap(lambda line: line.split("\n")) #lines
 
 # Map to (shooter, (dist, def_dist, time))
