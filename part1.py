@@ -27,9 +27,9 @@ info = textFile.rdd.flatMap(lambda line: line.split(","))
 
 # Map to (shooter, (dist, def_dist, time))
 ShotDistDefdistTime= info.map(lambda line: (line[15]+line[16].strip('"'),  #shooter
-                                            ((line[12]),  #dist
-                                             (line[18]), #def_dist
-                                             (line[9])))) #time//float
+                                            ((float(line[12])),  #dist
+                                             (float(line[18])), #def_dist
+                                             (float(line[9]))))) #time//float
 
 made = ShotDistDefdistTime.filter(lambda pair: pair[1][0] == 'made') #hit==made
 
