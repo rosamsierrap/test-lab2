@@ -10,7 +10,10 @@ import random
 conf = SparkConf().setAppName("PART1")
 sc = SparkContext(conf=conf)
 
-textFile = sc.textFile(sys.argv[1]) # data
+textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) # data
+
+info = textFile.rdd.flatMap(lambda line: line).map(lambda line: line.split(","))
+
 
 for i in range(10):
   print("THE TEXTFILE")
@@ -20,15 +23,14 @@ print(textFile)
 info = textFile.flatMap(lambda line: line.split("\n")) #lines
 
 # Map to (shooter, (dist, def_dist, time))
-ShotDistDefdistTime= info.map(lambda line: (line.split(",")[15]+line.split(",")[16].strip('"'),  #shooter
-                                            ((line.split(",")[12]),  #dist
-                                             (line.split(",")[18]), #def_dist
-                                             (line.split(",")[9])))) #time//float
+ShotDistDefdistTime= info.map(lambda line: (line[15]+line[16].strip('"'),  #shooter
+                                            ((line[12]),  #dist
+                                             (line[18]), #def_dist
+                                             (line[9])))) #time//float
 
 made = ShotDistDefdistTime.filter(lambda pair: pair[1][0] == 'made') #hit==made
 
 made_byshooter = made.groupByKey()
-
 
 p = made_byshooter.map(lambda pair: (pair[0], list(pair[1]))).collectAsMap()
 
@@ -96,9 +98,8 @@ for player, data in p.items():
 output = sc.parallelize([shooter + '\t' + str(centroid_pos) for shooter, centroid_pos in cntds.items()])
 for i in range(10):
   print("THE OUTPUT")
-for line in output:
-  print(line)
+
 print(output)
-#output.saveAsTextFile("hdfs://10.128.0.2:9000/part1/output")
+output.saveAsTextFile("hdfs://10.128.0.2:9000/part1/output")
 
 sc.stop()
