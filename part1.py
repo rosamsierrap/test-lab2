@@ -17,13 +17,8 @@ if len(sys.argv) != 2:
     sys.exit(1)
 
 textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) # data
-
-header = textFile.first()
-
-# Filter out rows with empty values
-filtered_data = textFile.dropna(how="any")
-#filtered_data = textFile.filter((col("") == "") & ~col("").isNull()).filter((col("header") == "") & ~col("header").isNull())
-#filtered_data = filtered_data.filter(lambda row: all(col != "" for col in row))
+filtered_data = textFile
+#filtered_data = textFile.dropna(how="any")
 
 for i in range(10):
   print("THE TEXTFILE")
