@@ -20,12 +20,6 @@ textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) #
 filtered_data = textFile
 #filtered_data = textFile.dropna(how="any")
 
-for i in range(10):
-  print("THE TEXTFILE")
-  
-print(textFile)
-print("FILTERED")
-print(filtered_data)
 
 info = filtered_data.rdd #info_rdd
 
@@ -117,6 +111,11 @@ with open("output.txt", "w") as f:
 for i in range(10):
   print("THE OUTPUT")
 print(output_list)
+
+for i in range(10):
+  print("THE TEXTFILE")
+  
+print(textFile)
 
 #output = cntds.map(lambda x: x[0] + '\t' + str(x[1]))
 #output.foreach(print)
