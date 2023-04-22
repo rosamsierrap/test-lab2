@@ -10,7 +10,7 @@ import random
 conf = SparkConf().setAppName("PART1")
 sc = SparkContext(conf=conf)
 
-textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) # data
+textFile = sc.read.format("csv").option("header", "true").load(sys.argv[1]) # data
 
 info = textFile.rdd.flatMap(lambda line: line).map(lambda line: line.split(","))
 
