@@ -9,22 +9,18 @@ import random
 
 conf = SparkConf().setAppName("PART1")
 sc = SparkContext(conf=conf)
-
-###textFile = sc.read.format("csv").option("header", "true").load(sys.argv[1]) # data
 spark = SparkSession.builder.appName("PART1").getOrCreate()
-
-###textFile = spark.read.csv(sys.argv[1], header=True, inferSchema=True)
 
 textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) # data
 
-info = textFile.rdd.flatMap(lambda line: line).map(lambda line: line.split(","))
 
 for i in range(10):
   print("THE TEXTFILE")
   
 print(textFile)
 
-info = textFile.flatMap(lambda line: line.split("\n")) #lines
+#info = textFile.flatMap(lambda line: line.split("\n")) #lines
+info = textFile.rdd.flatMap(lambda line: line).map(lambda line: line.split(","))
 
 # Map to (shooter, (dist, def_dist, time))
 ShotDistDefdistTime= info.map(lambda line: (line[15]+line[16].strip('"'),  #shooter
