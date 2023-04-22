@@ -109,16 +109,20 @@ for player, data in p.items():
             if future_centroid[i]:
                 cntds[player][i] = future_centroid[i]
 
+for player,centroid_pos in cntds.items():
+    print(player+'\t'+str(centroid_pos))       
+              
 output = sc.parallelize([shooter + '\t' + str(centroid_pos) for shooter, centroid_pos in cntds.items()])
-for i in range(10):
-  print("THE OUTPUT")
-
-output.saveAsTextFile("hdfs://10.128.0.2:9000/part1/output")
-# collect the output to driver and write to a file
 output_list = output.collect()
+output.saveAsTextFile("hdfs://10.128.0.2:9000/part1/output")
 with open("output.txt", "w") as f:
     for line in output_list:
         f.write(line + "\n")
+           
+for i in range(10):
+  print("THE OUTPUT")
+print(output_list)
 
-
+#output = cntds.map(lambda x: x[0] + '\t' + str(x[1]))
+#output.foreach(print)
 sc.stop()
