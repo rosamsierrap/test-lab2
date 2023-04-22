@@ -11,16 +11,19 @@ conf = SparkConf().setAppName("PART1")
 sc = SparkContext(conf=conf)
 spark = SparkSession.builder.appName("PART1").getOrCreate()
 
-textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) # data
+if len(sys.argv) != 2:
+    print("Usage: part1.py <input_file_path>")
+    sys.exit(1)
 
+textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) # data
 
 for i in range(10):
   print("THE TEXTFILE")
   
 print(textFile)
 
-#info = textFile.flatMap(lambda line: line.split("\n")) #lines
-info = textFile.rdd.flatMap(lambda line: line).map(lambda line: line.split(","))
+info = textFile.rdd.flatMap(lambda line: line.split(","))
+
 
 # Map to (shooter, (dist, def_dist, time))
 ShotDistDefdistTime= info.map(lambda line: (line[15]+line[16].strip('"'),  #shooter
