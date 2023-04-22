@@ -21,8 +21,9 @@ textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) #
 header = textFile.first()
 
 # Filter out rows with empty values
-filtered_data = textFile.filter(lambda line: all(x != '' for x in line.split(',')) and line != header)
-filtered_data = filtered_data.filter(lambda row: all(col != "" for col in row))
+filtered_data = textFile.dropna(how="any")
+#filtered_data = textFile.filter((col("") == "") & ~col("").isNull()).filter((col("header") == "") & ~col("header").isNull())
+#filtered_data = filtered_data.filter(lambda row: all(col != "" for col in row))
 
 for i in range(10):
   print("THE TEXTFILE")
