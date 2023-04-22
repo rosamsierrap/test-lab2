@@ -22,8 +22,7 @@ for i in range(10):
   
 print(textFile)
 
-info = textFile.rdd.flatMap(lambda line: line.split(","))
-
+info = textFile.rdd.filter(lambda line: all(x.strip() for x in line)).flatMap(lambda line: line.split(","))
 
 # Map to (shooter, (dist, def_dist, time))
 ShotDistDefdistTime= info.map(lambda line: (line[15]+line[16].strip('"'),  #shooter
