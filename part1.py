@@ -10,7 +10,7 @@ import random
 conf = SparkConf().setAppName("PART1")
 sc = SparkContext(conf=conf)
 
-textFile = sc.textFile(sys.argv[1]) # data
+textFile = sc.textFile(shot_logs.csv) # data
 
 info = textFile.flatMap(lambda line: line.split("\n")) #lines
 
