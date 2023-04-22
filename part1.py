@@ -13,7 +13,9 @@ sc = SparkContext(conf=conf)
 ###textFile = sc.read.format("csv").option("header", "true").load(sys.argv[1]) # data
 spark = SparkSession.builder.appName("PART1").getOrCreate()
 
-textFile = spark.read.csv(sys.argv[1], header=True, inferSchema=True)
+###textFile = spark.read.csv(sys.argv[1], header=True, inferSchema=True)
+
+textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) # data
 
 info = textFile.rdd.flatMap(lambda line: line).map(lambda line: line.split(","))
 
