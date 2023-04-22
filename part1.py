@@ -19,27 +19,24 @@ if len(sys.argv) != 2:
 textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) # data
 filtered_data = textFile
 #filtered_data = textFile.dropna(how="any")
-
-
 info = filtered_data.rdd #info_rdd
 
 
-# Map to (shooter, (dist, def_dist, time))
+# Map to (shooter, (dist, def_dist, time, made))
+ShotDistDefdistTime = info.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
+                                             ((float(line[12])),  # dist, 12
+                                              (float(line[18])), # def_dist
+                                              (float(line[9])),  # time
+                                              line[15])))       # made
 
-ShotDistDefdistTime= info.map(lambda line: (line[-2].strip('"'),  #shooter,15,16
-                                            ((float(line[12])),  #dist,12
-                                             (float(line[18])), #def_dist
-                                             (float(line[9]))), #time//float
-                                             (line[15]))) #made
-                                                  
-#new data frame without made                                                   
-ShotDistDefdistTime2= info.map(lambda line: (line[-2].strip('"'),  #shooter,15,16
-                                            ((float(line[12])),  #dist,12
-                                             (float(line[18])), #def_dist
-                                             (float(line[9]))))) #time  
-                                                   
-made_0 = ShotDistDefdistTime.filter(lambda pair: pair[1][3] == 'made') #hit==made  filter made shots     
-made = ShotDistDefdistTime2.filter(lambda pair: pair[0][0] == made_0[0][0]) #without made column
+# New data frame without made                                                   
+ShotDistDefdistTime2 = info.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
+                                              ((float(line[12])),  # dist, 12
+                                               (float(line[18])), # def_dist
+                                               (float(line[9])))) # time  
+
+made_0 = ShotDistDefdistTime.filter(lambda pair: pair[1][3] == 'made') # hit==made filter made shots     
+made = ShotDistDefdistTime2.filter(lambda pair: pair[0] == made_0.collect()[0][0]) # without made column
                    
 made_byshooter = made.groupByKey()
                                                 
