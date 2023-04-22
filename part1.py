@@ -30,7 +30,7 @@ ShotDistDefdistTime= info.map(lambda line: (line[-2].strip('"'),  #shooter,15,16
                                             ((float(line[12])),  #dist,12
                                              (float(line[18])), #def_dist
                                              (float(line[9]))), #time//float
-                                             (line[15))) #made
+                                             (line[15]))) #made
                                                   
 #new data frame without made                                                   
 ShotDistDefdistTime2= info.map(lambda line: (line[-2].strip('"'),  #shooter,15,16
