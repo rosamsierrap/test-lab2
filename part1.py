@@ -32,10 +32,11 @@ print(textFile)
 print("FILTERED")
 print(filtered_data)
 
-info = filtered_data
-#textFile.rdd.filter(lambda line: all(x.strip() for x in line)).flatMap(lambda line: line.split(","))
+info = filtered_data.rdd #info_rdd
+
 
 # Map to (shooter, (dist, def_dist, time))
+
 ShotDistDefdistTime= info.map(lambda line: (line[15]+line[16].strip('"'),  #shooter
                                             ((float(line[12])),  #dist
                                              (float(line[18])), #def_dist
