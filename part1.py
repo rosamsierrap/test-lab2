@@ -113,7 +113,7 @@ output = sc.parallelize([shooter + '\t' + str(centroid_pos) for shooter, centroi
 for i in range(10):
   print("THE OUTPUT")
 
-output.saveAsTextFile("hdfs://$SPARK_MASTER:9000/part1/output")
+output.saveAsTextFile("hdfs://10.128.0.2:9000/part1/output")
 # collect the output to driver and write to a file
 output_list = output.collect()
 with open("output.txt", "w") as f:
