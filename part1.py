@@ -110,15 +110,4 @@ with open("output.txt", "w") as f:
     for line in output_list:
         f.write(line + "\n")
            
-for i in range(10):
-  print("THE OUTPUT")
-print(output_list)
-
-for i in range(10):
-  print("THE TEXTFILE")
-  
-print(textFile)
-
-#output = cntds.map(lambda x: x[0] + '\t' + str(x[1]))
-#output.foreach(print)
 sc.stop()
