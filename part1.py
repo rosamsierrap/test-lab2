@@ -30,7 +30,7 @@ ShotDistDefdistTime = info.map(lambda line: (line[-2].strip('"'),  # shooter, 15
 ShotDistDefdistTime2 = info2.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
                                               ((float(line[12])),  # dist, 12
                                                (float(line[18])), # def_dist
-                                               (float(line[9])))) # time  
+                                               (float(line[9])) ))) # time  
 
 made0 = ShotDistDefdistTime.filter(lambda pair: pair[1] == 'made') # hit made filter made shots     
 made = ShotDistDefdistTime2.filter(lambda pair: pair[0] == made0.collect()[0][0]) # without made column
