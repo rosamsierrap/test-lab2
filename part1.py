@@ -20,14 +20,14 @@ textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) #
 filtered_data = textFile
 #filtered_data = textFile.dropna(how="any")
 info = filtered_data.rdd #info_rdd
-
+info2 = info
 
 # Map to (shooter, (dist, def_dist, time, made))
 ShotDistDefdistTime = info.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
                                               line[15])       # made
 
 # New data frame without made                                                   
-ShotDistDefdistTime2 = info.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
+ShotDistDefdistTime2 = info2.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
                                               ((float(line[12])),  # dist, 12
                                                (float(line[18])), # def_dist
                                                (float(line[9])))) # time  
