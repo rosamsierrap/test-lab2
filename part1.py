@@ -17,23 +17,23 @@ if len(sys.argv) != 2:
     sys.exit(1)
 
 textFile = spark.read.format("csv").option("header", "true").load(sys.argv[1]) # data
-filtered_data = textFile
-#filtered_data = textFile.dropna(how="any")
+#filtered_data = textFile
+filtered_data = textFile.dropna(how="any")
 info = filtered_data.rdd #info_rdd
-info2 = info
-
-# Map to (shooter, (dist, def_dist, time, made))
-ShotDistDefdistTime = info.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
-                                              line[15]))       # made
 
 # New data frame without made                                                   
-ShotDistDefdistTime2 = info2.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
-                                              ((float(line[12])),  # dist, 12
+ShotDistDefdistTime = info.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
+                                               line[15], #made
+                                              (
+                                               (float(line[12])),  # dist, 12
                                                (float(line[18])), # def_dist
-                                               (float(line[9])) ))) # time  
+                                               (float(line[9])), #time
+                                              )
+                                              )
+                                              ) # time  
 
-made0 = ShotDistDefdistTime.filter(lambda pair: pair[1] == 'made') # hit made filter made shots     
-made = ShotDistDefdistTime2.filter(lambda pair: pair[0] == made0.collect()[0][0]) # without made column
+made = ShotDistDefdistTime.filter(lambda pair: pair[1] == 'made') # hit made filter made shots   
+made = made.map(lambda line: (line[0],line[2]))
                    
 made_byshooter = made.groupByKey()
                                                 
