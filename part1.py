@@ -24,7 +24,7 @@ info2 = info
 
 # Map to (shooter, (dist, def_dist, time, made))
 ShotDistDefdistTime = info.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
-                                              line[15])       # made
+                                              line[15]))       # made
 
 # New data frame without made                                                   
 ShotDistDefdistTime2 = info2.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
