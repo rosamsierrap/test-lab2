@@ -105,7 +105,7 @@ for player,centroid_pos in cntds.items():
               
 output = sc.parallelize([shooter + '\t' + str(centroid_pos) for shooter, centroid_pos in cntds.items()])
 output_list = output.collect()
-output.saveAsTextFile("hdfs://$SPARK_MASTER:9000/part1/output")
+#output.saveAsTextFile("hdfs://$SPARK_MASTER:9000/part1/output")
 with open("output.txt", "w") as f:
     for line in output_list:
         f.write(line + "\n")
