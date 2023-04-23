@@ -22,12 +22,12 @@ filtered_data = textFile.dropna(how="any")
 info = filtered_data.rdd #info_rdd
 
 # New data frame without made                                                   
-ShotDistDefdistTime = info.map(lambda line: (line[-2].strip('"'),  # shooter, 15, 16
-                                               line[15], #made
+ShotDistDefdistTime = info.map(lambda line: (line[19].strip('"'),  # shooter, 15, 16
+                                               line[13], #made
                                               (
-                                               (float(line[12])),  # dist, 12
-                                               (float(line[18])), # def_dist
-                                               (float(line[9])), #time
+                                               (float(line[11])),  # dist, 12
+                                               (float(line[16])), # def_dist
+                                               (float(line[8])), #time
                                               )
                                               )
                                               ) # time  
@@ -49,7 +49,7 @@ def l2(set1, set2):
     return (d ** 0.5)
 
 # For each shooter, perform k-means clustering
-for player, data in p.items():
+for player, data in p.items(): #dist, def-dist, time
     if len(data) < 4:
         continue
     if player not in cntds:
