@@ -16,6 +16,6 @@ if __name__ == "__main__":
     final_data=car_violations.select('Violation Time').na.drop().rdd
     hour=final_data.map(lambda y:y[0]).map(lambda y: (y[:2]+y[-1], 1)).reduceByKey(add) #perform action of RDD
 
-    for i in hour.sortBy(lambda y: y[0], ascending=False).take(5):
+    for i in hour.sortBy(lambda y: y[1], ascending=False).take(5):
         print(i)
     spark_session.stop()
