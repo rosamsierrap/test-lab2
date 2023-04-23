@@ -7,4 +7,4 @@ source ../../../env.sh
 
 echo "--------------------------- Question: What is the probability that it will get an ticket?? ---------------------------" 
 
-/usr/local/spark/bin/spark-submit --master=spark://10.128.0.2:7077 ./Black_Ticket.py hdfs://10.128.0.2:9000/part2/input/
+/usr/local/spark/bin/spark-submit --master=spark://$SPARK_MASTER:7077 ./Black_Ticket.py hdfs://$SPARK_MASTER:9000/part2/input/
